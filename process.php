@@ -6,12 +6,12 @@
     //to prevent mysql injection
     $username = stripcslashes($username);
     $password = stripcslashes($password);
-    $username = mysqli_real_escape_string($username);
-    $password = mysqli_real_escape_string($password);
+    $username = mysql_real_escape_string($username);
+    $password = mysql_real_escape_string($password);
 
     // connect to the server and select database
-    mysqli_connect("localhost", "root", "");
-    mysqli_select_db("login");
+    mysql_connect("localhost", "root", "");
+    mysql_select_db("login");
 
     //query the database for user
     $result = mysql_query("select * from users where usernmane = '$username' and password = '$password'")
@@ -22,7 +22,4 @@
     }else{
         echo "Failed login :c";
     }
-
-    /*
-
-    */
+?>
