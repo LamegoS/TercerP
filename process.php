@@ -6,17 +6,28 @@
     //to prevent mysql injection
     $username = stripcslashes($username);
     $password = stripcslashes($password);
-    $username = mysql_real_escape_string($username);
-    $password = mysql_real_escape_string($password);
+    $username = mysql_real_escape_string($_POST['username']);
+    $password = mysql_real_escape_string($_POST['password']);
 
     // connect to the server and select database
-    mysql_connect("localhost", "root", "");
-    mysql_select_db("login");
+    //mysqli_connect("localhost", "root", "");
+    //mysqli_select_db("login");
+
+    // Create connection
+    $conn = new mysqli($username, $password);
+
+    // Check connection
+    if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+    }
+    echo "Connected successfully";
+
+    
 
     //query the database for user
-    $result = mysql_query("select * from users where usernmane = '$username' and password = '$password'")
-                or die("Failed to query database ".mysql_error());
-    $row = mysql_fetch_array($result);
+    $result = mysqli_query("select * from users where usernmane = '$username' and password = '$password'")
+                or die("Failed to query database ".mysqli_error());
+    $row = mysqli_fetch_array($result);
     if ($row['username'] == $username && $row['password']){
         echo "Login success! Welcome ".$row['username'];
     }else{
